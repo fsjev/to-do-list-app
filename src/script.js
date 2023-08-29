@@ -11,6 +11,30 @@ class Todo{
 };
 
 
+class TodoContainer{
+    constructor(){
+        this.todos = [];
+    };
+
+    inTodos(todo){
+        return this.todos.some(item => item === todo);
+    };
+
+    addTodo(newTodo){
+        this.todos.push(newTodo);
+    };
+
+    // getTodo(){
+
+    // };
+
+    deleteTodo(todo){
+        this.todos = this.todos.filter()
+    };
+};
+
+const todoContainer = new TodoContainer();
+
 
 
 
