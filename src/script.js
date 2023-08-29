@@ -34,3 +34,14 @@ class TodoContainer{
 };
 
 const mainTodoContainer = new TodoContainer();
+
+
+function createTodo(title, description, dueDate, priority){
+
+    // title, description, dueDate, priority
+
+
+    
+    return new Todo(title, description, dueDate, priority);
+};
+
