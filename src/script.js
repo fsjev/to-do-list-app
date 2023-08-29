@@ -29,12 +29,8 @@ class TodoContainer{
     // };
 
     deleteTodo(todo){
-        this.todos = this.todos.filter()
+        this.todos = this.todos.filter(item => item !== todo);
     };
 };
 
-const todoContainer = new TodoContainer();
-
-
-
-
+const mainTodoContainer = new TodoContainer();
