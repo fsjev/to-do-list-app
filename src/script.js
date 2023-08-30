@@ -43,3 +43,8 @@ function createTodo(){
     return new Todo(title, dueDate);
 };
 
+function createTodoContainer(){
+
+    return new TodoContainer();
+};
+
