@@ -28,3 +28,27 @@ header{
     font-weight: bold;
     font-family: "Poppins";
 }
+main{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.times{
+    background-color: rgb(18, 121, 255);
+    display: flex;
+    color: white;
+    padding: 15px;
+    justify-content: space-around;
+}
+.times hr{
+    opacity: .5;
+}
+.time-toggle{
+    /* background-color: orangered; */
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+.time-toggle:hover{
+    background-color: rgba(255, 255, 255, 0.151);
+}
+.times-active{
+    font-weight: bold;
+}
