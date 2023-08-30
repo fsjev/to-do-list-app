@@ -34,7 +34,7 @@ class TodoContainer{
 const mainTodoContainer = new TodoContainer();
 
 
-function createTodo(title, dueDate){
+function createTodo(){
 
     // title, dueDate
 
@@ -42,3 +42,4 @@ function createTodo(title, dueDate){
     
     return new Todo(title, dueDate);
 };
+
