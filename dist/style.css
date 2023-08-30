@@ -150,3 +150,28 @@ main{
 ion-icon{
     font-size: 30px;
 }
+footer{
+    border-top: 1px solid rgba(0, 0, 0, 0.137);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    margin-top: auto;
+}
+.github{
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+.github a{
+    color: black;
+}
+.github ion-icon{
+    margin-left: 5px;
+    font-size: 30px;
+    transition: .2s;
+}
+.github ion-icon:hover{
+    transform: rotate(360deg) scale(1.2);
+}
