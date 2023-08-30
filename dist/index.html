@@ -4,39 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./main.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Tasks to-do</title>
 </head>
 <body>
     <header class="navbar">
         <div class="logo">
-            <span>Tasks</span> To-do
+            <span>Tasks</span>To-do
         </div>
     </header>
     <main>
         <div class="times">
-            <div>All to-dos</div>
-            <div>Today</div>
-            <div>Tomorrow</div>
-            <div>This week</div>
-            <div>Next week</div>
+            <div id="all-todos" class="time-toggle">All to-dos</div>
+            <hr>
+            <div id="today" class="time-toggle">Today</div>
+            <div id="tomorrow" class="time-toggle">Tomorrow</div>
+            <div id="this-week" class="time-toggle">This week</div>
+            <div id="next-week" class="time-toggle">Next week</div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
         </div>
-        <div class="sidebar">
-            <div id="main-toggle"></div>
-            <div class="cat">
-                My Categories
+        <div class="main-content">
+            <div class="sidebar">
+                <div id="main-toggle"></div>
+                <div class="cat">
+                    My Categories
+                </div>
+                <div id="make-category" class="sidebar-hover">+ Create Category</div>
             </div>
-            <div id="make-category" class="sidebar-hover">+ Create Category</div>
-        </div>
-        <div class="content">
-            <div class="period">
-
+            <div class="content">
+                <div class="active-period">
+                </div>
             </div>
         </div>
     </main>
     <footer>
         <p class="github">
-            fsjev<a href="https://github.com/fsjev" title="open in new tab" target="_blank">
-                <ion-icon name="logo-github"></ion-icon>
+            fsjev
+            <a href="https://github.com/fsjev" title="open in new tab" target="_blank">
+            <ion-icon name="logo-github"></ion-icon>
             </a>
         </p>
     </footer>
