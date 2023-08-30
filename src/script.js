@@ -2,11 +2,9 @@ import { format } from "date-fns";
 
 
 class Todo{
-    constructor(title, description, dueDate, priority){
+    constructor(title, dueDate){
         this.title = title;
-        this.description = description;
         this.dueDate = format(new Date(dueDate), "MMM dd, yyyy");
-        this.priority = priority;
     };
 };
 
@@ -36,12 +34,11 @@ class TodoContainer{
 const mainTodoContainer = new TodoContainer();
 
 
-function createTodo(title, description, dueDate, priority){
+function createTodo(title, dueDate){
 
-    // title, description, dueDate, priority
+    // title, dueDate
 
 
     
-    return new Todo(title, description, dueDate, priority);
+    return new Todo(title, dueDate);
 };
-
