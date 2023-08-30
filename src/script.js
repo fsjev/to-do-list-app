@@ -2,9 +2,10 @@ import { format } from "date-fns";
 
 
 class Todo{
-    constructor(title, dueDate){
+    constructor(title, dueDate, category){
         this.title = title;
         this.dueDate = format(new Date(dueDate), "MMM dd, yyyy");
+        this.category = category;
     };
 };
 
