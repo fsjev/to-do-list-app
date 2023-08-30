@@ -21,6 +21,7 @@ header{
     font-family: "Poppins";
     display: flex;
     align-items: center;
+    margin-left: 70px;
 }
 .logo span{
     margin-right: 10px;
