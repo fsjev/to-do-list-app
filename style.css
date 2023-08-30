@@ -62,7 +62,7 @@ main{
     background-color: rgb(187, 218, 255);
     flex: 1;
     padding: 30px;
-    font-size: 20px;
+    font-size: 22px;
 }
 #main-toggle{
 }
@@ -92,3 +92,22 @@ main{
     padding: 30px;
     flex: 4;
 }
+.active-content{
+    font-size: 22px;
+    font-weight: normal;
+}
+#time-period, #category{
+    font-size: 40px;
+    font-weight: bold;
+}
+ion-icon{
+    font-size: 30px;
+}
+/* footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    margin-top: auto;
+} */
