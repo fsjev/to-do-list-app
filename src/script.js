@@ -10,15 +10,20 @@ CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER);
 const UIController = (() => {
     // allow user to interact with the program via UI
     // read the state of the program and display it in the browser
-    const createCatBtn = document.getElementById("create-category");
+    // const createCatBtn = document.getElementById("create-category");
+
+})();
+
+
+
+const AppFunctions = (() => {
+    // 08312023
+    const today = format(new Date(), "MMddyyyy");
     
 })();
 
-function createTodo(){
+function createTodo(title, dueDate){
 
-    // title, dueDate
-
-    
     return new Todo(title, dueDate);
 };
 
