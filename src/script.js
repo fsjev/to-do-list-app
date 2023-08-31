@@ -1,10 +1,11 @@
 import { format } from "date-fns"; 
-import { Todo, TodoContainer, CategoryContainer } from "./classes";
+import { Todo, TodoContainer, CategoryContainer } from "./classes.js";
 
+const CATEGORYCONTAINER = new CategoryContainer();
 
+const MAINTODOCONTAINER = new TodoContainer();
 
-const mainTodoContainer = new TodoContainer();
-
+CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER);
 
 function createTodo(){
 
