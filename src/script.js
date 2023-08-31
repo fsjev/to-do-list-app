@@ -31,6 +31,25 @@ class TodoContainer{
     };
 };
 
+
+class CategoryContainer{
+    constructor(){
+        this.categories = [];
+    };
+
+    inCategories(category){
+        return this.categories.some(item => item === category);
+    };
+
+    addCategory(newCategory){
+        this.categories.push(newCategory);
+    };
+
+    deleteCategory(category){
+        this.todos = this.categories.filter(item => item !== category);
+    };
+};
+
 const mainTodoContainer = new TodoContainer();
 
 
