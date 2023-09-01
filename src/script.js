@@ -7,7 +7,77 @@ const UIController = (() => {
     // allow user to interact with the program via UI
     // read the state of the program and display it in the browser
     const createCatBtn = document.getElementById("create-category");
-    
+    const addtodoBtn = document.getElementById("add-to-do");
+
+
+    const showNewTodoInput = () => {
+        
+        const newInput = document.createElement("input");
+        newInput.setAttribute("type", "text");
+        newInput.setAttribute("class", "js-input-to-do");
+
+        const newInputDate = document.createElement("input");
+        newInputDate.setAttribute("type", "date");
+        newInputDate.setAttribute("class", "js-input-to-do-date");
+
+        const btnDiv = document.createElement("div");
+        btnDiv.setAttribute("class", "btn-div");
+
+        const newTodoBtnOk = document.createElement("button");
+        newTodoBtnOk.setAttribute("class", "js-button");
+        newTodoBtnOk.setAttribute("id", "ok");
+        newTodoBtnOk.textContent = "Ok";
+
+        const newTodoBtnCancel = document.createElement("button");
+        newTodoBtnCancel.setAttribute("class", "js-button");
+        newTodoBtnCancel.setAttribute("id", "cancel");
+        newTodoBtnCancel.textContent = "Cancel";
+
+        const containerTwo = document.querySelector(".container-two");
+        // addtodoBtn.setAttribute("class", "hide");
+        addtodoBtn.remove();
+        containerTwo.appendChild(newInput);
+        containerTwo.appendChild(newInputDate);
+        btnDiv.appendChild(newTodoBtnOk);
+        btnDiv.appendChild(newTodoBtnCancel);
+        containerTwo.appendChild(btnDiv);
+    };
+
+    const showNewCategoryInput = () => {
+
+        const newInput = document.createElement("input");
+        newInput.setAttribute("type", "text");
+        newInput.setAttribute("class", "js-input");
+
+        const btnDiv = document.createElement("div");
+        btnDiv.setAttribute("class", "btn-div");
+
+        const newCategoryBtnOk = document.createElement("button");
+        newCategoryBtnOk.setAttribute("class", "js-button");
+        newCategoryBtnOk.setAttribute("id", "ok");
+        newCategoryBtnOk.textContent = "Ok";
+
+        const newCategoryBtnCancel = document.createElement("button");
+        newCategoryBtnCancel.setAttribute("class", "js-button");
+        newCategoryBtnCancel.setAttribute("id", "cancel");
+        newCategoryBtnCancel.textContent = "Cancel";
+        
+        const containerOne = document.querySelector(".container-one");
+        createCatBtn.classList.add("hide");
+        containerOne.appendChild(newInput);
+        btnDiv.appendChild(newCategoryBtnOk);
+        btnDiv.appendChild(newCategoryBtnCancel);
+        containerOne.appendChild(btnDiv);
+    };
+
+    createCatBtn.addEventListener("click", showNewCategoryInput);
+    addtodoBtn.addEventListener("click", showNewTodoInput);
+
+    // window.addEventListener("click", () => {
+    //     console.log("click!");
+    // });
+
+    return {  };
 })();
 
 
