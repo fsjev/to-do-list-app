@@ -14,6 +14,7 @@ const UIController = (() => {
         
         const newInput = document.createElement("input");
         newInput.setAttribute("type", "text");
+        newInput.setAttribute("placeholder", "What to do?");
         newInput.setAttribute("class", "js-input-to-do");
 
         const newInputDate = document.createElement("input");
@@ -47,6 +48,7 @@ const UIController = (() => {
 
         const newInput = document.createElement("input");
         newInput.setAttribute("type", "text");
+        newInput.setAttribute("placeholder", "Type new category name");
         newInput.setAttribute("class", "js-input");
 
         const btnDiv = document.createElement("div");
