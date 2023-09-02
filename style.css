@@ -80,12 +80,30 @@ main{
     padding: 30px;
     font-size: 22px;
 }
-#main-toggle{
-}
 .cat-title{
     font-size: 35px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+.category-names-container{
+    display: flex;
+    flex-direction: column;
+    height: 345px;
+}
+.category-names{
+    border: 1px solid purple;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 10px;
+    /* flex: 1; */
+}
+.category{
+    padding: 5px;
+    border-radius: 4px;
+}
+.category:hover{
+    background-color: rgba(255, 255, 255, 0.253);
 }
 .create-cat{
     display: flex;
@@ -94,14 +112,19 @@ main{
     outline: none;
     border: none;
     background-color: rgb(196, 223, 255);
+    border-radius: 4px;
+    padding: 5px;
 }
 .create-cat ion-icon{
     font-size: 24px;
     margin-right: 5px;
 }
+.create-cat:hover{
+    background-color: rgba(255, 255, 255, 0.253);
+}
 .container-one{
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 35px;
     width: 200px;
 }
 .hide{
@@ -161,13 +184,6 @@ main{
 #cancel{
     background-color: rgb(255, 46, 46);
 }
-.sidebar-toggle{
-    border-radius: 4px;
-    padding: 5px;
-}
-.sidebar-toggle:hover{
-    background-color: rgba(255, 255, 255, 0.253);
-}
 .main-content{
     padding: 30px;
     flex: 4;
@@ -189,8 +205,10 @@ main{
 }
 .to-dos-container{
     flex: 3;
+    height: 345px;
 }
 .to-dos{
+    border: 1px solid purple;
     display: grid;
     grid-template-columns: 1fr;
     padding: 15px;
@@ -198,9 +216,11 @@ main{
 }
 .to-do{
     /* border: 1px solid purple; */
+    border-radius: 4px;
     padding: 5px;
 }
 .container-two{
+    /* border: 1px solid purple; */
     margin-left: 35px;
     margin-top: 10px;
     width: 200px;
