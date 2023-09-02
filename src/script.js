@@ -29,9 +29,10 @@ const UIController = (() => {
         newCategoryBtnCancel.setAttribute("class", "js-button");
         newCategoryBtnCancel.setAttribute("id", "cancel");
         newCategoryBtnCancel.textContent = "Cancel";
+        newCategoryBtnCancel.onclick = cancelCategoryInput;
         
         const containerOne = document.querySelector(".container-one");
-        createCatBtn.classList.add("hide");
+        createCatBtn.style.display = "none";
         containerOne.appendChild(newInput);
         btnDiv.appendChild(newCategoryBtnOk);
         btnDiv.appendChild(newCategoryBtnCancel);
@@ -79,6 +80,15 @@ const UIController = (() => {
         const arrayWithoutAddBtn = containerChildrenArray.filter(item => item.id !== "add-to-do");
         arrayWithoutAddBtn.forEach(item => item.remove());
         addtodoBtn.style.removeProperty("display");
+    };
+
+    const cancelCategoryInput = (e) => {
+
+        const containerChildren = e.target.parentNode.parentNode.children;
+        const containerChildrenArray = Array.from(containerChildren);
+        const arrayWithoutCatBtn = containerChildrenArray.filter(item => item.id !== "create-category");
+        arrayWithoutCatBtn.forEach(item => item.remove());
+        createCatBtn.style.removeProperty("display");
     };
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
