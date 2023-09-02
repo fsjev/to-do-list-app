@@ -10,6 +10,34 @@ const UIController = (() => {
     const addtodoBtn = document.getElementById("add-to-do");
 
 
+    const showNewCategoryInput = () => {
+
+        const newInput = document.createElement("input");
+        newInput.setAttribute("type", "text");
+        newInput.setAttribute("placeholder", "Type new category name");
+        newInput.setAttribute("class", "js-input");
+
+        const btnDiv = document.createElement("div");
+        btnDiv.setAttribute("class", "btn-div");
+
+        const newCategoryBtnOk = document.createElement("button");
+        newCategoryBtnOk.setAttribute("class", "js-button");
+        newCategoryBtnOk.setAttribute("id", "ok");
+        newCategoryBtnOk.textContent = "Ok";
+
+        const newCategoryBtnCancel = document.createElement("button");
+        newCategoryBtnCancel.setAttribute("class", "js-button");
+        newCategoryBtnCancel.setAttribute("id", "cancel");
+        newCategoryBtnCancel.textContent = "Cancel";
+        
+        const containerOne = document.querySelector(".container-one");
+        createCatBtn.classList.add("hide");
+        containerOne.appendChild(newInput);
+        btnDiv.appendChild(newCategoryBtnOk);
+        btnDiv.appendChild(newCategoryBtnCancel);
+        containerOne.appendChild(btnDiv);
+    };
+
     const showNewTodoInput = () => {
         
         const newInput = document.createElement("input");
@@ -44,36 +72,8 @@ const UIController = (() => {
         containerTwo.appendChild(btnDiv);
     };
 
-    const showNewCategoryInput = () => {
-
-        const newInput = document.createElement("input");
-        newInput.setAttribute("type", "text");
-        newInput.setAttribute("placeholder", "Type new category name");
-        newInput.setAttribute("class", "js-input");
-
-        const btnDiv = document.createElement("div");
-        btnDiv.setAttribute("class", "btn-div");
-
-        const newCategoryBtnOk = document.createElement("button");
-        newCategoryBtnOk.setAttribute("class", "js-button");
-        newCategoryBtnOk.setAttribute("id", "ok");
-        newCategoryBtnOk.textContent = "Ok";
-
-        const newCategoryBtnCancel = document.createElement("button");
-        newCategoryBtnCancel.setAttribute("class", "js-button");
-        newCategoryBtnCancel.setAttribute("id", "cancel");
-        newCategoryBtnCancel.textContent = "Cancel";
-        
-        const containerOne = document.querySelector(".container-one");
-        createCatBtn.classList.add("hide");
-        containerOne.appendChild(newInput);
-        btnDiv.appendChild(newCategoryBtnOk);
-        btnDiv.appendChild(newCategoryBtnCancel);
-        containerOne.appendChild(btnDiv);
-    };
-
     const cancelTodoInput = (e) => {
-        
+
         const containerChildren = e.target.parentNode.parentNode.children;
         const containerChildrenArray = Array.from(containerChildren);
         const arrayWithoutAddBtn = containerChildrenArray.filter(item => item.id !== "add-to-do");
