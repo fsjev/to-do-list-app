@@ -3,7 +3,7 @@ import { Todo, TodoContainer, CategoryContainer } from "./classes.js";
 
 
 
-const AppFunctions = (() => {
+const App = (() => {
 
     const date = format(new Date(), "MMM dd, yyyy");
     const CATEGORYCONTAINER = new CategoryContainer();
@@ -31,7 +31,7 @@ const UIController = (() => {
     const addtodoBtn = document.getElementById("add-to-do");
 
 
-    date.textContent = AppFunctions.date;
+    date.textContent = App.date;
 
 
     const showNewCategoryInput = () => {
