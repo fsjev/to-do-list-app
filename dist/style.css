@@ -91,7 +91,6 @@ main{
     height: 345px;
 }
 .category-names{
-    border: 1px solid purple;
     display: grid;
     grid-template-columns: 1fr;
     padding: 15px;
