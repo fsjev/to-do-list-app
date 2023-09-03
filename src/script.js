@@ -20,19 +20,27 @@ const App = (() => {
         return new TodoContainer();
     };
     
-    return { date };
+    return { date,  };
 })();
+
+
+const UIShowState = (() => {
+    // read the state of the program and display it in the browser
+
+    
+    return {  };
+})();
+
 
 const UIController = (() => {
     // allow user to interact with the program via UI
-    // read the state of the program and display it in the browser
+    
     const date = document.getElementById("date");
     const createCatBtn = document.getElementById("create-category");
     const addtodoBtn = document.getElementById("add-to-do");
 
 
     date.textContent = App.date;
-
 
     const showNewCategoryInput = () => {
 
