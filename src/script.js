@@ -24,14 +24,6 @@ const App = (() => {
 })();
 
 
-const UIShowState = (() => {
-    // read the state of the program and display it in the browser
-
-    
-    return {  };
-})();
-
-
 const UIController = (() => {
     // allow user to interact with the program via UI
 
@@ -200,3 +192,11 @@ const UIController = (() => {
     return { dateDiv };
 })();
 
+
+const UIShowState = (() => {
+    // read the state of the program and display it in the browser
+
+    UIController.dateDiv.textContent = App.date;
+
+
+})();
