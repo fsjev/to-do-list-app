@@ -237,7 +237,7 @@ main{
 }
 .todo-btn{
     background-color: rgb(212, 231, 255);
-    border: 1px solid gray;
+    border: 1px solid rgba(128, 128, 128, 0.5);
     outline: none;
     padding: 0px 7px;
     border-radius: 4px;
