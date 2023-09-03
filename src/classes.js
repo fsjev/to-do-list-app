@@ -34,8 +34,12 @@ class CategoryContainer{
         return this.categories.some(item => item === category);
     };
 
-    addCategory(newCategory){
-        this.categories.push(newCategory);
+    addCategory(newCategory, name){
+        const categoryObject = {
+            category: newCategory,
+            categoryName: name
+        };
+        this.categories.push(categoryObject);
     };
 
     deleteCategory(category){
