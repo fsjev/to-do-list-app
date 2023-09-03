@@ -48,6 +48,7 @@ const UIController = (() => {
         newCategoryBtnOk.setAttribute("class", "js-button");
         newCategoryBtnOk.setAttribute("id", "ok");
         newCategoryBtnOk.textContent = "Ok";
+        newCategoryBtnOk.onclick = createCategoryDom;
 
         const newCategoryBtnCancel = document.createElement("button");
         newCategoryBtnCancel.setAttribute("class", "js-button");
@@ -81,6 +82,7 @@ const UIController = (() => {
         newTodoBtnOk.setAttribute("class", "js-button");
         newTodoBtnOk.setAttribute("id", "ok");
         newTodoBtnOk.textContent = "Ok";
+        newTodoBtnOk.onclick = createTodoDom;
 
         const newTodoBtnCancel = document.createElement("button");
         newTodoBtnCancel.setAttribute("class", "js-button");
@@ -115,11 +117,77 @@ const UIController = (() => {
         createCatBtn.style.removeProperty("display");
     };
 
+    const createCategoryDom = (e) => {
+
+        const parentDiv = document.querySelector(".category-names");
+        const containerChildren = e.target.parentNode.parentNode.children;
+        const containerChildrenArray = Array.from(containerChildren);
+        const arrayWithoutCatBtn = containerChildrenArray.filter(item => item.id !== "create-category");
+        const initialName = arrayWithoutCatBtn[0].value;
+        const firstLetter = initialName.charAt(0).toUpperCase();
+        const otherLetters = initialName.substring(1);
+        const newCategoryName = `${firstLetter}${otherLetters}`;
+        
+        const categoryBtn = document.createElement("button");
+        categoryBtn.setAttribute("class", "category");
+        categoryBtn.textContent = newCategoryName;
+        parentDiv.appendChild(categoryBtn);
+        cancelCategoryInput(e);
+        // createCategoryState;
+    };
+
+    const createCategoryState = () => {
+
+    };
+
+    const createTodoDom = (e) => {
+
+        const parentDiv = document.querySelector(".to-dos");
+        const containerChildren = e.target.parentNode.parentNode.children;
+        const containerChildrenArray = Array.from(containerChildren);
+        const arrayWithoutAddTodoBtn = containerChildrenArray.filter(item => item.id !== "add-to-do");
+        const todo = arrayWithoutAddTodoBtn[0].value;
+        const todoFirstLetter = todo.charAt(0).toUpperCase();
+        const otherCharacters = todo.substring(1);
+        const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
+        const dueDate = arrayWithoutAddTodoBtn[1].value;
+        
+        const todoDiv = document.createElement("div");
+        todoDiv.setAttribute("class", "to-do");
+        todoDiv.onmouseenter = (e) => Array.from(e.target.children)[2].style.visibility = "visible";
+        todoDiv.onmouseleave = (e) => Array.from(e.target.children)[2].style.visibility = "hidden";
+
+        const todoTitleDiv = document.createElement("div");
+        todoTitleDiv.setAttribute("class", "title");
+        todoTitleDiv.textContent = newTodoTitle;
+
+        const todoDateDiv = document.createElement("div");
+        todoDateDiv.setAttribute("class", "due-date");
+        todoDateDiv.textContent = dueDate;
+
+        const btnWrapDiv = document.createElement("div");
+        btnWrapDiv.setAttribute("class", "btn-wrap");
+
+        const completeBtn = document.createElement("button");
+        completeBtn.setAttribute("class", "todo-btn");
+        completeBtn.textContent = "Completed";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.setAttribute("class", "todo-btn");
+        removeBtn.textContent = "Remove";
+
+        todoDiv.appendChild(todoTitleDiv);
+        todoDiv.appendChild(todoDateDiv);
+        btnWrapDiv.appendChild(completeBtn);
+        btnWrapDiv.appendChild(removeBtn);
+        todoDiv.appendChild(btnWrapDiv);
+
+        parentDiv.appendChild(todoDiv);
+        cancelTodoInput(e);
+    };
+
+
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
-
-    // window.addEventListener("click", () => {
-    //     console.log("click!");
-    // });
 })();
 
