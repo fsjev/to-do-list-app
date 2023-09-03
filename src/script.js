@@ -34,13 +34,12 @@ const UIShowState = (() => {
 
 const UIController = (() => {
     // allow user to interact with the program via UI
-    
-    const date = document.getElementById("date");
+
+    const dateDiv = document.getElementById("date");
     const createCatBtn = document.getElementById("create-category");
     const addtodoBtn = document.getElementById("add-to-do");
 
 
-    date.textContent = App.date;
 
     const showNewCategoryInput = () => {
 
@@ -197,5 +196,7 @@ const UIController = (() => {
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
+
+    return { dateDiv };
 })();
 
