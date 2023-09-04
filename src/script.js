@@ -8,17 +8,19 @@ const App = (() => {
     const date = format(new Date(), "MMM dd, yyyy");
     const CATEGORYCONTAINER = new CategoryContainer();
     const MAINTODOCONTAINER = new TodoContainer();
-    CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main");
+    CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main", true);
 
     const createTodo = (title, dueDate) => {
 
-        return new Todo(title, dueDate);
+        const todo = new Todo(title, dueDate);
+
     };
 
     const createTodoContainer = (categoryName) => {
 
         const todoContainer = new TodoContainer();
-        CATEGORYCONTAINER.addCategory(todoContainer, categoryName);
+        const inCategory = true;
+        CATEGORYCONTAINER.addCategory(todoContainer, categoryName, inCategory);
     };
     
     return { date, createTodoContainer, CATEGORYCONTAINER };
@@ -79,7 +81,7 @@ const UIController = (() => {
         newTodoBtnOk.setAttribute("class", "js-button");
         newTodoBtnOk.setAttribute("id", "ok");
         newTodoBtnOk.textContent = "Ok";
-        newTodoBtnOk.onclick = createTodoDom;
+        newTodoBtnOk.onclick = createTodo;
 
         const newTodoBtnCancel = document.createElement("button");
         newTodoBtnCancel.setAttribute("class", "js-button");
@@ -126,6 +128,10 @@ const UIController = (() => {
         App.createTodoContainer(newCategoryName);
         cancelCategoryInput(e);
         StateRep.showCategories();
+    };
+
+    const createTodo = (e) => {
+
     };
 
     const createTodoDom = (e) => {
@@ -191,6 +197,29 @@ const StateRep = (() => {
     const showCategories = () => {
 
         categoriesParentDiv.innerHTML = "";
+        App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
+            const categoryBtn = document.createElement("button");
+            if(categoryObject.categoryName === "Main"){
+                categoryBtn.setAttribute("class", "main-category");
+                categoryBtn.textContent = categoryObject.categoryName;
+            }else{
+                categoryBtn.setAttribute("class", "category");
+                const nameDiv = document.createElement("div");
+                nameDiv.textContent = categoryObject.categoryName;
+                const removebtn = document.createElement("input");
+                removebtn.setAttribute("type", "button");
+                removebtn.setAttribute("class", "todo-btn");
+                removebtn.setAttribute("value", "Remove");
+                categoryBtn.appendChild(nameDiv);
+                categoryBtn.appendChild(removebtn);
+            };
+            categoriesParentDiv.appendChild(categoryBtn);
+        });
+    };
+
+    const showTodos = () => {
+
+        todosParentDiv.innerHTML = "";
         App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
             const categoryBtn = document.createElement("button");
             if(categoryObject.categoryName === "Main"){
