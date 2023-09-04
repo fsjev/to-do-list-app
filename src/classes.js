@@ -34,10 +34,11 @@ class CategoryContainer{
         return this.categories.some(item => item === category);
     };
 
-    addCategory(newCategory, name){
+    addCategory(newCategory, name, bool){
         const categoryObject = {
             category: newCategory,
-            categoryName: name
+            categoryName: name,
+            inCategory: bool
         };
         this.categories.push(categoryObject);
     };
