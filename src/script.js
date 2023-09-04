@@ -8,30 +8,28 @@ const App = (() => {
     const date = format(new Date(), "MMM dd, yyyy");
     const CATEGORYCONTAINER = new CategoryContainer();
     const MAINTODOCONTAINER = new TodoContainer();
-    CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER);
+    CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main");
 
     const createTodo = (title, dueDate) => {
 
         return new Todo(title, dueDate);
     };
 
-    const createTodoContainer = () => {
+    const createTodoContainer = (categoryName) => {
 
-        return new TodoContainer();
+        const todoContainer = new TodoContainer();
+        CATEGORYCONTAINER.addCategory(todoContainer, categoryName);
     };
     
-    return { date,  };
+    return { date, createTodoContainer, CATEGORYCONTAINER };
 })();
 
 
 const UIController = (() => {
-    // allow user to interact with the program via UI
 
-    const dateDiv = document.getElementById("date");
     const createCatBtn = document.getElementById("create-category");
     const addtodoBtn = document.getElementById("add-to-do");
-
-
+    
 
     const showNewCategoryInput = () => {
 
@@ -47,7 +45,7 @@ const UIController = (() => {
         newCategoryBtnOk.setAttribute("class", "js-button");
         newCategoryBtnOk.setAttribute("id", "ok");
         newCategoryBtnOk.textContent = "Ok";
-        newCategoryBtnOk.onclick = createCategoryDom;
+        newCategoryBtnOk.onclick = createCategory;
 
         const newCategoryBtnCancel = document.createElement("button");
         newCategoryBtnCancel.setAttribute("class", "js-button");
@@ -116,9 +114,7 @@ const UIController = (() => {
         createCatBtn.style.removeProperty("display");
     };
 
-    const createCategoryDom = (e) => {
-
-        const parentDiv = document.querySelector(".category-names");
+    const createCategory = (e) => {
         const containerChildren = e.target.parentNode.parentNode.children;
         const containerChildrenArray = Array.from(containerChildren);
         const arrayWithoutCatBtn = containerChildrenArray.filter(item => item.id !== "create-category");
@@ -126,17 +122,10 @@ const UIController = (() => {
         const firstLetter = initialName.charAt(0).toUpperCase();
         const otherLetters = initialName.substring(1);
         const newCategoryName = `${firstLetter}${otherLetters}`;
-        
-        const categoryBtn = document.createElement("button");
-        categoryBtn.setAttribute("class", "category");
-        categoryBtn.textContent = newCategoryName;
-        parentDiv.appendChild(categoryBtn);
+
+        App.createTodoContainer(newCategoryName);
         cancelCategoryInput(e);
-        // createCategoryState;
-    };
-
-    const createCategoryState = () => {
-
+        StateRep.showCategories();
     };
 
     const createTodoDom = (e) => {
@@ -188,15 +177,41 @@ const UIController = (() => {
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
-
-    return { dateDiv };
 })();
 
 
-const UIShowState = (() => {
-    // read the state of the program and display it in the browser
+const StateRep = (() => {
 
-    UIController.dateDiv.textContent = App.date;
+    const dateDiv = document.getElementById("date");
+    dateDiv.textContent = App.date;
 
+    const categoriesParentDiv = document.querySelector(".category-names");
+    const todosParentDiv = document.querySelector(".to-dos");
+
+    const showCategories = () => {
+
+        categoriesParentDiv.innerHTML = "";
+        App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
+            const categoryBtn = document.createElement("button");
+            if(categoryObject.categoryName === "Main"){
+                categoryBtn.setAttribute("class", "main-category");
+                categoryBtn.textContent = categoryObject.categoryName;
+            }else{
+                categoryBtn.setAttribute("class", "category");
+                const nameDiv = document.createElement("div");
+                nameDiv.textContent = categoryObject.categoryName;
+                const removebtn = document.createElement("input");
+                removebtn.setAttribute("type", "button");
+                removebtn.setAttribute("class", "todo-btn");
+                removebtn.setAttribute("value", "Remove");
+                categoryBtn.appendChild(nameDiv);
+                categoryBtn.appendChild(removebtn);
+            };
+            categoriesParentDiv.appendChild(categoryBtn);
+        });
+    };
+
+    showCategories();
+    return { showCategories };
 
 })();
