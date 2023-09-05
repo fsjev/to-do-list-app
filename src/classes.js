@@ -43,6 +43,10 @@ class CategoryContainer{
         this.categories.push(categoryObject);
     };
 
+    getActiveCategory(){
+        return this.categories.find(cat => cat.inCategory === true);
+    };
+
     deleteCategory(category){
         this.todos = this.categories.filter(item => item !== category);
     };
