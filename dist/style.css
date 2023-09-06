@@ -136,6 +136,9 @@ main{
 .cat-btn:hover{
     background-color: rgb(197, 216, 240);
 }
+.active-cat-btn{
+    background-color: rgba(255, 255, 255, 0.253);
+}
 .create-cat{
     display: flex;
     font-size: 16px;
