@@ -10,6 +10,9 @@ const App = (() => {
     const MAINTODOCONTAINER = new TodoContainer();
     CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main", true);
 
+
+    // console.log(CATEGORYCONTAINER.getActiveCategory());
+
     const createTodo = (title, dueDate) => {
 
         const todo = new Todo(title, dueDate);
@@ -20,7 +23,15 @@ const App = (() => {
 
         const todoContainer = new TodoContainer();
         const inCategory = true;
+        deactivateOthers();
         CATEGORYCONTAINER.addCategory(todoContainer, categoryName, inCategory);
+    };
+
+    const deactivateOthers = () => {
+
+        CATEGORYCONTAINER.categories.forEach(cat => {
+            cat.inCategory = false;
+        });
     };
     
     return { date, createTodoContainer, CATEGORYCONTAINER };
@@ -203,19 +214,26 @@ const StateRep = (() => {
                 categoryBtn.setAttribute("class", "main-category");
                 categoryBtn.textContent = categoryObject.categoryName;
             }else{
+                categoryBtn.dataset.category = JSON.stringify(categoryObject);
                 categoryBtn.setAttribute("class", "category");
                 const nameDiv = document.createElement("div");
                 nameDiv.textContent = categoryObject.categoryName;
                 const removebtn = document.createElement("input");
                 removebtn.setAttribute("type", "button");
-                removebtn.setAttribute("class", "todo-btn");
+                removebtn.setAttribute("class", "cat-btn");
                 removebtn.setAttribute("value", "Remove");
+                removebtn.onclick = () => console.log(JSON.parse(categoryBtn.dataset.category));3
+                categoryBtn.onmouseenter = (e) => Array.from(e.target.children)[1].style.visibility = "visible";
+                categoryBtn.onmouseleave = (e) => Array.from(e.target.children)[1].style.visibility = "hidden";
                 categoryBtn.appendChild(nameDiv);
                 categoryBtn.appendChild(removebtn);
             };
             categoriesParentDiv.appendChild(categoryBtn);
         });
     };
+
+    
+    
 
     const showTodos = () => {
 
