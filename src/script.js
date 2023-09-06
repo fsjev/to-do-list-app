@@ -138,7 +138,7 @@ const UIController = (() => {
 
         App.createTodoContainer(newCategoryName);
         cancelCategoryInput(e);
-        StateRep.showCategories();
+        UpdateScreen.showCategories();
     };
 
     const createTodo = (e) => {
@@ -197,7 +197,7 @@ const UIController = (() => {
 })();
 
 
-const StateRep = (() => {
+const UpdateScreen = (() => {
 
     const dateDiv = document.getElementById("date");
     dateDiv.textContent = App.date;
