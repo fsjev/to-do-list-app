@@ -10,13 +10,12 @@ const App = (() => {
     const MAINTODOCONTAINER = new TodoContainer();
     CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main", true);
 
-
-    // console.log(CATEGORYCONTAINER.getActiveCategory());
+    const getActiveCategory = () => CATEGORYCONTAINER.getActiveCategory();
 
     const createTodo = (title, dueDate) => {
 
         const todo = new Todo(title, dueDate);
-
+        getActiveCategory().addTodo(todo);
     };
 
     const createTodoContainer = (categoryName) => {
@@ -34,9 +33,12 @@ const App = (() => {
         });
     };
     
-    return { date, createTodoContainer, CATEGORYCONTAINER };
+    return { date, getActiveCategory, createTodoContainer, CATEGORYCONTAINER };
 })();
-
+// for(let prop in App.activeCategory){
+//     console.log(prop);
+// }
+// console.log(App.activeCategory);
 
 const UIController = (() => {
 
@@ -137,15 +139,13 @@ const UIController = (() => {
         const newCategoryName = `${firstLetter}${otherLetters}`;
 
         App.createTodoContainer(newCategoryName);
+        // console.log(App.CATEGORYCONTAINER.categories);
         cancelCategoryInput(e);
         UpdateScreen.showCategories();
+        UpdateScreen.showActiveCategory();
     };
 
     const createTodo = (e) => {
-
-    };
-
-    const createTodoDom = (e) => {
 
         const parentDiv = document.querySelector(".to-dos");
         const containerChildren = e.target.parentNode.parentNode.children;
@@ -156,6 +156,14 @@ const UIController = (() => {
         const otherCharacters = todo.substring(1);
         const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
         const dueDate = arrayWithoutAddTodoBtn[1].value;
+
+        // console.log(App.getActiveCategory());
+
+    };
+
+    const createTodoDom = (e) => {
+
+
         
         const todoDiv = document.createElement("div");
         todoDiv.setAttribute("class", "to-do");
@@ -205,6 +213,8 @@ const UpdateScreen = (() => {
     const categoriesParentDiv = document.querySelector(".category-names");
     const todosParentDiv = document.querySelector(".to-dos");
 
+    const activeCategory = App.getActiveCategory();
+
     const showCategories = () => {
 
         categoriesParentDiv.innerHTML = "";
@@ -213,6 +223,7 @@ const UpdateScreen = (() => {
             if(categoryObject.categoryName === "Main"){
                 categoryBtn.setAttribute("class", "main-category");
                 categoryBtn.textContent = categoryObject.categoryName;
+                categoryBtn.dataset.category = JSON.stringify(categoryObject);
             }else{
                 categoryBtn.dataset.category = JSON.stringify(categoryObject);
                 categoryBtn.setAttribute("class", "category");
@@ -222,7 +233,7 @@ const UpdateScreen = (() => {
                 removebtn.setAttribute("type", "button");
                 removebtn.setAttribute("class", "cat-btn");
                 removebtn.setAttribute("value", "Remove");
-                removebtn.onclick = () => console.log(JSON.parse(categoryBtn.dataset.category));3
+                removebtn.onclick = () => console.log(JSON.parse(categoryBtn.dataset.category));
                 categoryBtn.onmouseenter = (e) => Array.from(e.target.children)[1].style.visibility = "visible";
                 categoryBtn.onmouseleave = (e) => Array.from(e.target.children)[1].style.visibility = "hidden";
                 categoryBtn.appendChild(nameDiv);
@@ -232,8 +243,15 @@ const UpdateScreen = (() => {
         });
     };
 
-    
-    
+    const showActiveCategory = () => {
+
+        for(let elem of categoriesParentDiv.children){
+            let inElem = JSON.parse(elem.dataset.category).inCategory;
+            if(inElem === true){
+                elem.classList.add("active-cat-btn");
+            }
+        };
+    };
 
     const showTodos = () => {
 
@@ -259,6 +277,7 @@ const UpdateScreen = (() => {
     };
 
     showCategories();
-    return { showCategories };
+    showActiveCategory();
+    return { showCategories, showActiveCategory };
 
 })();
