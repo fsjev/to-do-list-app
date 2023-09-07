@@ -142,7 +142,7 @@ const UIController = (() => {
         // console.log(App.CATEGORYCONTAINER.categories);
         cancelCategoryInput(e);
         UpdateScreen.showCategories();
-        UpdateScreen.showActiveCategory();
+        UpdateScreen.highlightActiveCategory();
     };
 
     const createTodo = (e) => {
@@ -223,9 +223,7 @@ const UpdateScreen = (() => {
             if(categoryObject.categoryName === "Main"){
                 categoryBtn.setAttribute("class", "main-category");
                 categoryBtn.textContent = categoryObject.categoryName;
-                categoryBtn.dataset.category = JSON.stringify(categoryObject);
             }else{
-                categoryBtn.dataset.category = JSON.stringify(categoryObject);
                 categoryBtn.setAttribute("class", "category");
                 const nameDiv = document.createElement("div");
                 nameDiv.textContent = categoryObject.categoryName;
@@ -243,13 +241,13 @@ const UpdateScreen = (() => {
         });
     };
 
-    const showActiveCategory = () => {
+    const highlightActiveCategory = () => {
 
         for(let elem of categoriesParentDiv.children){
-            let inElem = JSON.parse(elem.dataset.category).inCategory;
-            if(inElem === true){
-                elem.classList.add("active-cat-btn");
-            }
+
+            App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
+                if(elem.textContent === categoryObject.categoryName && categoryObject.inCategory) elem.classList.add("active-cat-btn");
+            });
         };
     };
 
@@ -277,7 +275,7 @@ const UpdateScreen = (() => {
     };
 
     showCategories();
-    showActiveCategory();
-    return { showCategories, showActiveCategory };
+    highlightActiveCategory();
+    return { showCategories, highlightActiveCategory };
 
 })();
