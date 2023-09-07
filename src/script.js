@@ -12,6 +12,17 @@ const App = (() => {
 
     const getActiveCategory = () => CATEGORYCONTAINER.getActiveCategory();
 
+    const setActiveCategory = (categoryName) => {
+
+        CATEGORYCONTAINER.categories.forEach(categoryObject => {
+
+            if(categoryName === categoryObject.categoryName && categoryObject.inCategory === false){
+                deactivateOthers();
+                categoryObject.inCategory = true;
+            };
+        });
+    };
+
     const createTodo = (title, dueDate) => {
 
         const todo = new Todo(title, dueDate);
@@ -33,7 +44,7 @@ const App = (() => {
         });
     };
     
-    return { date, getActiveCategory, createTodoContainer, CATEGORYCONTAINER };
+    return { date, setActiveCategory, createTodoContainer, CATEGORYCONTAINER };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -161,6 +172,14 @@ const UIController = (() => {
 
     };
 
+    const openCategory = (e) => {
+
+        const categoryName = e.target.textContent;
+        App.setActiveCategory(categoryName);
+        UpdateScreen.showCategories();
+        UpdateScreen.highlightActiveCategory();
+    };
+
     const createTodoDom = (e) => {
 
 
@@ -202,6 +221,8 @@ const UIController = (() => {
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
+
+    return { openCategory }
 })();
 
 
@@ -213,13 +234,12 @@ const UpdateScreen = (() => {
     const categoriesParentDiv = document.querySelector(".category-names");
     const todosParentDiv = document.querySelector(".to-dos");
 
-    const activeCategory = App.getActiveCategory();
-
     const showCategories = () => {
 
         categoriesParentDiv.innerHTML = "";
         App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
             const categoryBtn = document.createElement("button");
+            categoryBtn.onclick = UIController.openCategory;
             if(categoryObject.categoryName === "Main"){
                 categoryBtn.setAttribute("class", "main-category");
                 categoryBtn.textContent = categoryObject.categoryName;
@@ -246,7 +266,9 @@ const UpdateScreen = (() => {
         for(let elem of categoriesParentDiv.children){
 
             App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
-                if(elem.textContent === categoryObject.categoryName && categoryObject.inCategory) elem.classList.add("active-cat-btn");
+                if(elem.textContent === categoryObject.categoryName && categoryObject.inCategory){
+                    elem.classList.add("active-cat-btn");
+                }
             });
         };
     };
