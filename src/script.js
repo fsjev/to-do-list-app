@@ -27,6 +27,7 @@ const App = (() => {
 
         const todo = new Todo(title, dueDate);
         getActiveCategory().addTodo(todo);
+        console.log(CATEGORYCONTAINER.categories)
     };
 
     const createTodoContainer = (categoryName) => {
@@ -44,7 +45,7 @@ const App = (() => {
         });
     };
     
-    return { date, setActiveCategory, createTodoContainer, CATEGORYCONTAINER };
+    return { date, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, CATEGORYCONTAINER };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -154,6 +155,7 @@ const UIController = (() => {
         cancelCategoryInput(e);
         UpdateScreen.showCategories();
         UpdateScreen.highlightActiveCategory();
+        UpdateScreen.setCategoryInfo();
     };
 
     const createTodo = (e) => {
@@ -168,7 +170,7 @@ const UIController = (() => {
         const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
         const dueDate = arrayWithoutAddTodoBtn[1].value;
 
-        // console.log(App.getActiveCategory());
+        console.log(App.getActiveCategory());
 
     };
 
@@ -178,6 +180,7 @@ const UIController = (() => {
         App.setActiveCategory(categoryName);
         UpdateScreen.showCategories();
         UpdateScreen.highlightActiveCategory();
+        UpdateScreen.setCategoryInfo();
     };
 
     const createTodoDom = (e) => {
@@ -218,7 +221,6 @@ const UIController = (() => {
         cancelTodoInput(e);
     };
 
-
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
 
@@ -229,7 +231,7 @@ const UIController = (() => {
 const UpdateScreen = (() => {
 
     const dateDiv = document.getElementById("date");
-    dateDiv.textContent = App.date;
+    const timePeriodInfo = document.getElementById("time-period");
 
     const categoriesParentDiv = document.querySelector(".category-names");
     const todosParentDiv = document.querySelector(".to-dos");
@@ -238,6 +240,7 @@ const UpdateScreen = (() => {
 
         categoriesParentDiv.innerHTML = "";
         App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
+
             const categoryBtn = document.createElement("button");
             categoryBtn.onclick = UIController.openCategory;
             if(categoryObject.categoryName === "Main"){
@@ -296,8 +299,16 @@ const UpdateScreen = (() => {
         });
     };
 
+    const setCategoryInfo = () => {
+
+        const categoryInfo = document.getElementById("category");
+        categoryInfo.textContent = App.getActiveCategory().categoryName;
+    };
+
+    dateDiv.textContent = App.date;
+    setCategoryInfo();
     showCategories();
     highlightActiveCategory();
-    return { showCategories, highlightActiveCategory };
+    return { showCategories, highlightActiveCategory, setCategoryInfo };
 
 })();
