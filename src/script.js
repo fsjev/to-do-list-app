@@ -28,7 +28,7 @@ const App = (() => {
         const todo = new Todo(title, dueDate);
         
         getActiveCategory().category.addTodo(todo);
-        console.log(CATEGORYCONTAINER.categories)
+        // console.log(CATEGORYCONTAINER.categories)
     };
 
     const createTodoContainer = (categoryName) => {
@@ -157,11 +157,11 @@ const UIController = (() => {
         UpdateScreen.showCategories();
         UpdateScreen.highlightActiveCategory();
         UpdateScreen.setCategoryInfo();
+        UpdateScreen.showTodos();
     };
 
     const createTodo = (e) => {
 
-        const parentDiv = document.querySelector(".to-dos");
         const containerChildren = e.target.parentNode.parentNode.children;
         const containerChildrenArray = Array.from(containerChildren);
         const arrayWithoutAddTodoBtn = containerChildrenArray.filter(item => item.id !== "add-to-do");
@@ -175,6 +175,7 @@ const UIController = (() => {
 
         App.createTodo(newTodoTitle, dueDate);
         cancelTodoInput(e);
+        UpdateScreen.showTodos();
         // console.log(App.CATEGORYCONTAINER.categories)
     };
 
@@ -185,44 +186,7 @@ const UIController = (() => {
         UpdateScreen.showCategories();
         UpdateScreen.highlightActiveCategory();
         UpdateScreen.setCategoryInfo();
-    };
-
-    const createTodoDom = (e) => {
-
-
-        
-        const todoDiv = document.createElement("div");
-        todoDiv.setAttribute("class", "to-do");
-        todoDiv.onmouseenter = (e) => Array.from(e.target.children)[2].style.visibility = "visible";
-        todoDiv.onmouseleave = (e) => Array.from(e.target.children)[2].style.visibility = "hidden";
-
-        const todoTitleDiv = document.createElement("div");
-        todoTitleDiv.setAttribute("class", "title");
-        todoTitleDiv.textContent = newTodoTitle;
-
-        const todoDateDiv = document.createElement("div");
-        todoDateDiv.setAttribute("class", "due-date");
-        todoDateDiv.textContent = dueDate;
-
-        const btnWrapDiv = document.createElement("div");
-        btnWrapDiv.setAttribute("class", "btn-wrap");
-
-        const completeBtn = document.createElement("button");
-        completeBtn.setAttribute("class", "todo-btn");
-        completeBtn.textContent = "Completed";
-
-        const removeBtn = document.createElement("button");
-        removeBtn.setAttribute("class", "todo-btn");
-        removeBtn.textContent = "Remove";
-
-        todoDiv.appendChild(todoTitleDiv);
-        todoDiv.appendChild(todoDateDiv);
-        btnWrapDiv.appendChild(completeBtn);
-        btnWrapDiv.appendChild(removeBtn);
-        todoDiv.appendChild(btnWrapDiv);
-
-        parentDiv.appendChild(todoDiv);
-        cancelTodoInput(e);
+        UpdateScreen.showTodos();
     };
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
@@ -282,24 +246,44 @@ const UpdateScreen = (() => {
 
     const showTodos = () => {
 
-        todosParentDiv.innerHTML = "";
-        App.CATEGORYCONTAINER.categories.forEach(categoryObject => {
-            const categoryBtn = document.createElement("button");
-            if(categoryObject.categoryName === "Main"){
-                categoryBtn.setAttribute("class", "main-category");
-                categoryBtn.textContent = categoryObject.categoryName;
-            }else{
-                categoryBtn.setAttribute("class", "category");
-                const nameDiv = document.createElement("div");
-                nameDiv.textContent = categoryObject.categoryName;
-                const removebtn = document.createElement("input");
-                removebtn.setAttribute("type", "button");
-                removebtn.setAttribute("class", "todo-btn");
-                removebtn.setAttribute("value", "Remove");
-                categoryBtn.appendChild(nameDiv);
-                categoryBtn.appendChild(removebtn);
-            };
-            categoriesParentDiv.appendChild(categoryBtn);
+        const todosOfActiveCategory = App.getActiveCategory().category.todos;
+        const parentDiv = document.querySelector(".to-dos");
+        parentDiv.innerHTML = "";
+
+        todosOfActiveCategory.forEach(todo => {
+
+            const todoDiv = document.createElement("div");
+            todoDiv.setAttribute("class", "to-do");
+            todoDiv.onmouseenter = (e) => Array.from(e.target.children)[2].style.visibility = "visible";
+            todoDiv.onmouseleave = (e) => Array.from(e.target.children)[2].style.visibility = "hidden";
+    
+            const todoTitleDiv = document.createElement("div");
+            todoTitleDiv.setAttribute("class", "title");
+            todoTitleDiv.textContent = todo.title;
+    
+            const todoDateDiv = document.createElement("div");
+            todoDateDiv.setAttribute("class", "due-date");
+            todoDateDiv.textContent = todo.dueDate;
+    
+            const btnWrapDiv = document.createElement("div");
+            btnWrapDiv.setAttribute("class", "btn-wrap");
+    
+            const completeBtn = document.createElement("button");
+            completeBtn.setAttribute("class", "todo-btn");
+            completeBtn.textContent = "Completed";
+    
+            const removeBtn = document.createElement("button");
+            removeBtn.setAttribute("class", "todo-btn");
+            removeBtn.textContent = "Remove";
+    
+            todoDiv.appendChild(todoTitleDiv);
+            todoDiv.appendChild(todoDateDiv);
+            btnWrapDiv.appendChild(completeBtn);
+            btnWrapDiv.appendChild(removeBtn);
+            todoDiv.appendChild(btnWrapDiv);
+    
+            parentDiv.appendChild(todoDiv);
+
         });
     };
 
@@ -313,6 +297,7 @@ const UpdateScreen = (() => {
     setCategoryInfo();
     showCategories();
     highlightActiveCategory();
-    return { showCategories, highlightActiveCategory, setCategoryInfo };
+    showTodos();
+    return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos };
 
 })();
