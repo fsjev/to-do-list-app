@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { addDays, format, parseISO } from "date-fns";
 import { Todo, TodoContainer, CategoryContainer } from "./classes.js";
 
 
@@ -26,7 +26,8 @@ const App = (() => {
     const createTodo = (title, dueDate) => {
 
         const todo = new Todo(title, dueDate);
-        getActiveCategory().addTodo(todo);
+        
+        getActiveCategory().category.addTodo(todo);
         console.log(CATEGORYCONTAINER.categories)
     };
 
@@ -168,10 +169,13 @@ const UIController = (() => {
         const todoFirstLetter = todo.charAt(0).toUpperCase();
         const otherCharacters = todo.substring(1);
         const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
-        const dueDate = arrayWithoutAddTodoBtn[1].value;
+        const dateDayBack = format(new Date(arrayWithoutAddTodoBtn[1].value), "yyyy-MM-dd");
+        const dateDayBackUnf = addDays(parseISO(dateDayBack), 1);
+        const dueDate = format(dateDayBackUnf, "MMM d, yyyy");
 
-        console.log(App.getActiveCategory());
-
+        App.createTodo(newTodoTitle, dueDate);
+        cancelTodoInput(e);
+        // console.log(App.CATEGORYCONTAINER.categories)
     };
 
     const openCategory = (e) => {
