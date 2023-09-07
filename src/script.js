@@ -172,7 +172,7 @@ const UIController = (() => {
         const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
         const dateDayBack = format(new Date(arrayWithoutAddTodoBtn[1].value), "yyyy-MM-dd");
         const dateDayBackUnf = addDays(parseISO(dateDayBack), 1);
-        const dueDate = format(dateDayBackUnf, "MMM d, yyyy");
+        const dueDate = format(dateDayBackUnf, "M dd, yyyy");
 
         App.createTodo(newTodoTitle, dueDate);
         cancelTodoInput(e);
