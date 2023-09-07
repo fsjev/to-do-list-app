@@ -3,7 +3,7 @@ import { format } from "date-fns";
 class Todo{
     constructor(title, dueDate){
         this.title = title;
-        this.dueDate = format(new Date(dueDate), "MMM dd, yyyy");
+        this.dueDate = dueDate;
     };
 };
 
