@@ -158,6 +158,7 @@ const UIController = (() => {
         UpdateScreen.highlightActiveCategory();
         UpdateScreen.setCategoryInfo();
         UpdateScreen.showTodos();
+        UpdateScreen.setCounter();
     };
 
     const createTodo = (e) => {
@@ -176,6 +177,7 @@ const UIController = (() => {
         App.createTodo(newTodoTitle, dueDate);
         cancelTodoInput(e);
         UpdateScreen.showTodos();
+        UpdateScreen.setCounter();
         // console.log(App.CATEGORYCONTAINER.categories)
     };
 
@@ -187,6 +189,7 @@ const UIController = (() => {
         UpdateScreen.highlightActiveCategory();
         UpdateScreen.setCategoryInfo();
         UpdateScreen.showTodos();
+        UpdateScreen.setCounter();
     };
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
@@ -293,11 +296,22 @@ const UpdateScreen = (() => {
         categoryInfo.textContent = App.getActiveCategory().categoryName;
     };
 
+    const setCounter = () => {
+
+        const counter = document.getElementById("counter");
+        const todosText = document.querySelector(".rest");
+        counter.textContent = App.getActiveCategory().category.todos.length;
+        if(App.getActiveCategory().category.todos.length === 0) todosText.textContent = "to-dos";
+        if(App.getActiveCategory().category.todos.length === 1) todosText.textContent = "to-do";
+        if(App.getActiveCategory().category.todos.length >= 2) todosText.textContent = "to-dos";
+    };
+
     dateDiv.textContent = App.date;
     setCategoryInfo();
     showCategories();
     highlightActiveCategory();
     showTodos();
-    return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos };
+    setCounter();
+    return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter };
 
 })();
