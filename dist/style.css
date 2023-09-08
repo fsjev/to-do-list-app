@@ -257,6 +257,9 @@ main{
     background-color: rgb(196, 223, 255);
     height: 35px;
 }
+.due-date{
+    font-size: 14px;
+}
 .btn-wrap{
     display: flex;
     justify-content: space-between;
