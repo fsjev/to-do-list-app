@@ -49,8 +49,13 @@ const App = (() => {
 
         CATEGORYCONTAINER.deleteCategory(categoryName);
     };
+
+    const deleteTodo = (todoTitle) => {
+
+        getActiveCategory().category.deleteTodo(todoTitle);
+    };
     
-    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -208,10 +213,19 @@ const UIController = (() => {
         previousCategoryElem.click();
     };
 
+    const removeTodo = (e) => {
+
+        const todoTitle = e.target.parentNode.parentNode.firstChild.textContent;
+        
+        App.deleteTodo(todoTitle);
+        UpdateScreen.showTodos();
+        UpdateScreen.setCounter();
+    };
+
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
 
-    return { openCategory, removeCategory }
+    return { openCategory, removeCategory, removeTodo }
 })();
 
 
@@ -290,10 +304,12 @@ const UpdateScreen = (() => {
             const completeBtn = document.createElement("button");
             completeBtn.setAttribute("class", "todo-btn");
             completeBtn.textContent = "Completed";
+            completeBtn.onclick = UIController.removeTodo;
     
             const removeBtn = document.createElement("button");
             removeBtn.setAttribute("class", "todo-btn");
             removeBtn.textContent = "Remove";
+            removeBtn.onclick = UIController.removeTodo;
     
             todoDiv.appendChild(todoTitleDiv);
             todoDiv.appendChild(todoDateDiv);
