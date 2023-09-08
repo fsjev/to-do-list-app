@@ -15,7 +15,6 @@ const App = (() => {
     const setActiveCategory = (categoryName) => {
 
         CATEGORYCONTAINER.categories.forEach(categoryObject => {
-
             if(categoryName === categoryObject.categoryName && categoryObject.inCategory === false){
                 deactivateOthers();
                 categoryObject.inCategory = true;
@@ -45,8 +44,13 @@ const App = (() => {
             cat.inCategory = false;
         });
     };
+
+    const deleteCategory = (categoryName) => {
+
+        CATEGORYCONTAINER.deleteCategory(categoryName);
+    };
     
-    return { date, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, CATEGORYCONTAINER };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -172,7 +176,7 @@ const UIController = (() => {
         const newTodoTitle = `${todoFirstLetter}${otherCharacters}`;
         const dateDayBack = format(new Date(arrayWithoutAddTodoBtn[1].value), "yyyy-MM-dd");
         const dateDayBackUnf = addDays(parseISO(dateDayBack), 1);
-        const dueDate = format(dateDayBackUnf, "M dd, yyyy");
+        const dueDate = format(dateDayBackUnf, "M/dd/yyyy");
 
         App.createTodo(newTodoTitle, dueDate);
         cancelTodoInput(e);
@@ -192,10 +196,22 @@ const UIController = (() => {
         UpdateScreen.setCounter();
     };
 
+    const removeCategory = (e) => {
+
+        const categoryName = e.target.parentNode.textContent;
+        const categoriesParentDiv = document.querySelector(".category-names");
+        const catArray = Array.from(categoriesParentDiv.children);
+        const currentCat = catArray.find(elem => elem.textContent === categoryName);
+        const previousCategoryIndex = catArray.indexOf(currentCat)-1;
+        const previousCategoryElem = catArray[previousCategoryIndex];
+        App.deleteCategory(categoryName);
+        previousCategoryElem.click();
+    };
+
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
 
-    return { openCategory }
+    return { openCategory, removeCategory }
 })();
 
 
@@ -225,7 +241,7 @@ const UpdateScreen = (() => {
                 removebtn.setAttribute("type", "button");
                 removebtn.setAttribute("class", "cat-btn");
                 removebtn.setAttribute("value", "Remove");
-                removebtn.onclick = () => console.log(JSON.parse(categoryBtn.dataset.category));
+                removebtn.onclick = UIController.removeCategory;
                 categoryBtn.onmouseenter = (e) => Array.from(e.target.children)[1].style.visibility = "visible";
                 categoryBtn.onmouseleave = (e) => Array.from(e.target.children)[1].style.visibility = "hidden";
                 categoryBtn.appendChild(nameDiv);
