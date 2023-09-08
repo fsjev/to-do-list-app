@@ -257,8 +257,12 @@ main{
     background-color: rgb(196, 223, 255);
     height: 35px;
 }
+.title{
+    flex: 1;
+}
 .due-date{
     font-size: 14px;
+    flex: 1;
 }
 .btn-wrap{
     display: flex;
