@@ -49,8 +49,9 @@ class CategoryContainer{
         return this.categories.find(cat => cat.inCategory === true);
     };
 
-    deleteCategory(category){
-        this.todos = this.categories.filter(item => item !== category);
+    deleteCategory(categoryName){
+        const category = this.categories.find(category => category.categoryName === categoryName);
+        this.categories = this.categories.filter(item => item !== category);
     };
 };
 
