@@ -10,6 +10,31 @@ const App = (() => {
     const MAINTODOCONTAINER = new TodoContainer();
     CATEGORYCONTAINER.addCategory(MAINTODOCONTAINER, "Main", true);
 
+    const allTodos = {
+        label: "all todos",
+        isActive: true,
+        constraint: null
+    };
+
+    const today = {
+        label: "today",
+        isActive: false,
+        constraint: null
+    };
+
+    const tomorrow = {
+        label: "tomorrow",
+        isActive: false,
+        constraint: null
+    };
+
+    const thisWeek = {
+        label: "this week",
+        isActive: false,
+        constraint: null
+    };
+    const timeConstraints = [allTodos, today, tomorrow, thisWeek];
+
     const getActiveCategory = () => CATEGORYCONTAINER.getActiveCategory();
 
     const setActiveCategory = (categoryName) => {
@@ -54,8 +79,16 @@ const App = (() => {
 
         getActiveCategory().category.deleteTodo(todoTitle);
     };
+
+    const activateTimeConstraint = (timePeriod) => {
+
+        timeConstraints.forEach(obj => obj.isActive = false);
+
+        const correspondingObj = timeConstraints.find(timeObj => timeObj.label === timePeriod);
+        correspondingObj.isActive = true;
+    };
     
-    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -66,7 +99,12 @@ const UIController = (() => {
 
     const createCatBtn = document.getElementById("create-category");
     const addtodoBtn = document.getElementById("add-to-do");
-    
+
+    const allTodosBtn = document.getElementById("all todos");
+    const todayBtn = document.getElementById("today");
+    const tomorrowBtn = document.getElementById("tomorrow");
+    const thisweekBtn = document.getElementById("this week");
+    const timeBtnArray = [allTodosBtn, todayBtn, tomorrowBtn, thisweekBtn];
 
     const showNewCategoryInput = () => {
 
@@ -152,6 +190,7 @@ const UIController = (() => {
     };
 
     const createCategory = (e) => {
+
         const containerChildren = e.target.parentNode.parentNode.children;
         const containerChildrenArray = Array.from(containerChildren);
         const arrayWithoutCatBtn = containerChildrenArray.filter(item => item.id !== "create-category");
@@ -222,8 +261,17 @@ const UIController = (() => {
         UpdateScreen.setCounter();
     };
 
+    const timePeriodBtnClick = (e) => {
+
+        const timePeriod = e.target.textContent.toLowerCase().replace("-", "");
+        App.activateTimeConstraint(timePeriod);
+        UpdateScreen.highlightActiveTimePeriod();
+        UpdateScreen.setTimePeriodInfo();
+    };
+
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
+    timeBtnArray.forEach(btn => btn.addEventListener("click", timePeriodBtnClick));
 
     return { openCategory, removeCategory, removeTodo }
 })();
@@ -232,10 +280,7 @@ const UIController = (() => {
 const UpdateScreen = (() => {
 
     const dateDiv = document.getElementById("date");
-    const timePeriodInfo = document.getElementById("time-period");
-
     const categoriesParentDiv = document.querySelector(".category-names");
-    const todosParentDiv = document.querySelector(".to-dos");
 
     const showCategories = () => {
 
@@ -338,12 +383,53 @@ const UpdateScreen = (() => {
         if(App.getActiveCategory().category.todos.length >= 2) todosText.textContent = "to-dos";
     };
 
+    const highlightActiveTimePeriod = () => {
+
+        const timesDiv = document.querySelector(".times");
+
+        const timesDivArray = Array.from(timesDiv.children).filter(item => item.localName !== "hr" && item.localName !== "div")
+
+        timesDivArray.forEach(btn => {
+
+            if(btn.classList.contains("active-time-toggle")){
+                btn.classList.remove("active-time-toggle");
+            };
+
+            App.timeConstraints.forEach(obj => {
+                if(obj.isActive && obj.label === btn.id){
+                    btn.classList.add("active-time-toggle");
+                };
+            });
+        });
+    };
+
+    const setTimePeriodInfo = () => {
+
+        const timePeriodInfo = document.getElementById("time-period");
+
+        if(App.timeConstraints.find(obj => obj.isActive === true).label === "all todos"){
+            timePeriodInfo.textContent = "All";
+        };
+        if(App.timeConstraints.find(obj => obj.isActive === true).label === "today"){
+            timePeriodInfo.textContent = "Today's";
+        };
+        if(App.timeConstraints.find(obj => obj.isActive === true).label === "tomorrow"){
+            timePeriodInfo.textContent = "Tomorrow's";
+        };
+        if(App.timeConstraints.find(obj => obj.isActive === true).label === "this week"){
+            timePeriodInfo.textContent = "This week's";
+        };
+    };
+
     dateDiv.textContent = App.date;
     setCategoryInfo();
     showCategories();
     highlightActiveCategory();
     showTodos();
     setCounter();
-    return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter };
+    highlightActiveTimePeriod();
+    setTimePeriodInfo();
+
+    return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter, highlightActiveTimePeriod, setTimePeriodInfo };
 
 })();
