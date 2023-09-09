@@ -207,6 +207,8 @@ const UIController = (() => {
         UpdateScreen.setCategoryInfo();
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
+        document.getElementById("all todos").click();
+
     };
 
     const createTodo = (e) => {
@@ -226,6 +228,7 @@ const UIController = (() => {
         cancelTodoInput(e);
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
+        document.getElementById("all todos").click();
         // console.log(App.CATEGORYCONTAINER.categories)
     };
 
