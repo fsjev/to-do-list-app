@@ -59,7 +59,7 @@ main{
     text-align: left;
     background-color: transparent;
     color: rgb(212, 231, 255);
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
 }
 .time-toggle:hover{
@@ -320,7 +320,7 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 15px;
 }
 #counter{
     display: block;
