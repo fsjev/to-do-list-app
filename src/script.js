@@ -19,7 +19,9 @@ const App = (() => {
     const today = {
         label: "today",
         isActive: false,
-        constraint: null
+        constraint: function(dueDate){
+
+        },
     };
 
     const tomorrow = {
@@ -87,8 +89,10 @@ const App = (() => {
         const correspondingObj = timeConstraints.find(timeObj => timeObj.label === timePeriod);
         correspondingObj.isActive = true;
     };
+
+    const getActiveTimePeriod = () => timeConstraints.find(obj => obj.isActive === true);
     
-    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod };
 })();
 // for(let prop in App.activeCategory){
 //     console.log(prop);
@@ -410,16 +414,16 @@ const UpdateScreen = (() => {
 
         const timePeriodInfo = document.getElementById("time-period");
 
-        if(App.timeConstraints.find(obj => obj.isActive === true).label === "all todos"){
+        if(App.getActiveTimePeriod().label === "all todos"){
             timePeriodInfo.textContent = "All";
         };
-        if(App.timeConstraints.find(obj => obj.isActive === true).label === "today"){
+        if(App.getActiveTimePeriod().label === "today"){
             timePeriodInfo.textContent = "Today's";
         };
-        if(App.timeConstraints.find(obj => obj.isActive === true).label === "tomorrow"){
+        if(App.getActiveTimePeriod().label === "tomorrow"){
             timePeriodInfo.textContent = "Tomorrow's";
         };
-        if(App.timeConstraints.find(obj => obj.isActive === true).label === "this week"){
+        if(App.getActiveTimePeriod().label === "this week"){
             timePeriodInfo.textContent = "This week's";
         };
     };
@@ -436,3 +440,5 @@ const UpdateScreen = (() => {
     return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter, highlightActiveTimePeriod, setTimePeriodInfo };
 
 })();
+
+// console.log(App.getActiveTimePeriod())
