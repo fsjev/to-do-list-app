@@ -3,6 +3,8 @@ import { Todo, TodoContainer, CategoryContainer } from "./classes.js";
 
 
 
+
+
 const App = (() => {
 
     const date = format(new Date(), "MMM dd, yyyy");
@@ -12,28 +14,43 @@ const App = (() => {
 
     const allTodos = {
         label: "all todos",
-        isActive: true,
-        constraint: null
+        isActive: false,
+        constraint: function(dueDate){
+            return true;
+        }
     };
 
     const today = {
         label: "today",
         isActive: false,
         constraint: function(dueDate){
-
-        },
+            const test = format(new Date(), "M/dd/yyyy");
+            return dueDate === test;
+        }
     };
 
     const tomorrow = {
         label: "tomorrow",
         isActive: false,
-        constraint: null
+        constraint: function(dueDate){
+            const date = format(new Date(), "yyyy-MM-dd");
+            const addedDay = addDays(parseISO(date), 1);
+            return dueDate === format(addedDay, "M/dd/yyyy");
+        }
     };
 
     const thisWeek = {
         label: "this week",
-        isActive: false,
-        constraint: null
+        isActive: true,
+        constraint: function(dueDate){
+            const date = format(new Date(), "yyyy-MM-dd");
+            for(let i = 0; i < 8; i++){
+                if(dueDate === format(addDays(parseISO(date), i), "M/dd/yyyy")){
+                    return true;
+                };
+            };
+            return false;
+        }
     };
     const timeConstraints = [allTodos, today, tomorrow, thisWeek];
 
@@ -94,10 +111,7 @@ const App = (() => {
     
     return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod };
 })();
-// for(let prop in App.activeCategory){
-//     console.log(prop);
-// }
-// console.log(App.activeCategory);
+
 
 const UIController = (() => {
 
@@ -274,6 +288,8 @@ const UIController = (() => {
         App.activateTimeConstraint(timePeriod);
         UpdateScreen.highlightActiveTimePeriod();
         UpdateScreen.setTimePeriodInfo();
+        UpdateScreen.showTodos();
+        UpdateScreen.setCounter();
     };
 
     createCatBtn.addEventListener("click", showNewCategoryInput);
@@ -337,40 +353,41 @@ const UpdateScreen = (() => {
 
         todosOfActiveCategory.forEach(todo => {
 
-            const todoDiv = document.createElement("div");
-            todoDiv.setAttribute("class", "to-do");
-            todoDiv.onmouseenter = (e) => Array.from(e.target.children)[2].style.visibility = "visible";
-            todoDiv.onmouseleave = (e) => Array.from(e.target.children)[2].style.visibility = "hidden";
-    
-            const todoTitleDiv = document.createElement("div");
-            todoTitleDiv.setAttribute("class", "title");
-            todoTitleDiv.textContent = todo.title;
-    
-            const todoDateDiv = document.createElement("div");
-            todoDateDiv.setAttribute("class", "due-date");
-            todoDateDiv.textContent = todo.dueDate;
-    
-            const btnWrapDiv = document.createElement("div");
-            btnWrapDiv.setAttribute("class", "btn-wrap");
-    
-            const completeBtn = document.createElement("button");
-            completeBtn.setAttribute("class", "todo-btn");
-            completeBtn.textContent = "Completed";
-            completeBtn.onclick = UIController.removeTodo;
-    
-            const removeBtn = document.createElement("button");
-            removeBtn.setAttribute("class", "todo-btn");
-            removeBtn.textContent = "Remove";
-            removeBtn.onclick = UIController.removeTodo;
-    
-            todoDiv.appendChild(todoTitleDiv);
-            todoDiv.appendChild(todoDateDiv);
-            btnWrapDiv.appendChild(completeBtn);
-            btnWrapDiv.appendChild(removeBtn);
-            todoDiv.appendChild(btnWrapDiv);
-    
-            parentDiv.appendChild(todoDiv);
-
+            if(App.getActiveTimePeriod().constraint(todo.dueDate)){
+                const todoDiv = document.createElement("div");
+                todoDiv.setAttribute("class", "to-do");
+                todoDiv.onmouseenter = (e) => Array.from(e.target.children)[2].style.visibility = "visible";
+                todoDiv.onmouseleave = (e) => Array.from(e.target.children)[2].style.visibility = "hidden";
+        
+                const todoTitleDiv = document.createElement("div");
+                todoTitleDiv.setAttribute("class", "title");
+                todoTitleDiv.textContent = todo.title;
+        
+                const todoDateDiv = document.createElement("div");
+                todoDateDiv.setAttribute("class", "due-date");
+                todoDateDiv.textContent = todo.dueDate;
+        
+                const btnWrapDiv = document.createElement("div");
+                btnWrapDiv.setAttribute("class", "btn-wrap");
+        
+                const completeBtn = document.createElement("button");
+                completeBtn.setAttribute("class", "todo-btn");
+                completeBtn.textContent = "Completed";
+                completeBtn.onclick = UIController.removeTodo;
+        
+                const removeBtn = document.createElement("button");
+                removeBtn.setAttribute("class", "todo-btn");
+                removeBtn.textContent = "Remove";
+                removeBtn.onclick = UIController.removeTodo;
+        
+                todoDiv.appendChild(todoTitleDiv);
+                todoDiv.appendChild(todoDateDiv);
+                btnWrapDiv.appendChild(completeBtn);
+                btnWrapDiv.appendChild(removeBtn);
+                todoDiv.appendChild(btnWrapDiv);
+        
+                parentDiv.appendChild(todoDiv);
+            };
         });
     };
 
@@ -440,5 +457,3 @@ const UpdateScreen = (() => {
     return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter, highlightActiveTimePeriod, setTimePeriodInfo };
 
 })();
-
-// console.log(App.getActiveTimePeriod())
