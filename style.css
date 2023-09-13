@@ -11,6 +11,7 @@ body{
     background-color: rgb(212, 231, 255);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 header{
     background-color: rgb(81, 156, 255);
@@ -100,15 +101,14 @@ main{
 .category-names-container{
     display: flex;
     flex-direction: column;
-    height: 345px;
+    height: 250px;
+    overflow-y: auto;
 }
 .category-names{
-    /* border: 1px solid red; */
     display: grid;
     grid-template-columns: 1fr;
     padding: 15px;
     gap: 10px;
-    /* flex: 1; */
 }
 .main-category{
     padding: 5px;
@@ -235,7 +235,6 @@ main{
     padding: 30px;
     flex: 4;
     display: flex;
-    flex-direction: column;
 }
 .active-content{
     font-size: 22px;
@@ -246,13 +245,16 @@ main{
     font-size: 35px;
     font-weight: bold;
 }
+.wrap{
+    flex: 3;
+}
 .to-dos-section{
     flex: 1;
-    display: flex;
 }
 .to-dos-container{
     flex: 3;
-    height: 345px;
+    height: 250px;
+    overflow-y: auto;
 }
 .to-dos{
     display: grid;
@@ -295,7 +297,6 @@ main{
     background-color: rgb(197, 216, 240);
 }
 .container-two{
-    /* border: 1px solid purple; */
     margin-left: 35px;
     margin-top: 10px;
     width: 200px;
@@ -330,10 +331,11 @@ main{
 .counter-container button{
     background-color: transparent;
     outline: none;
-    border: 1px solid red;
+    border: 1px solid rgba(255, 0, 0, 0.495);
     border-radius: 4px;
     padding: 5px;
     cursor: pointer;
+    margin-top: 20px;
 }
 .counter-container button:hover{
     background-color: rgb(197, 216, 240);
@@ -375,4 +377,43 @@ footer{
 }
 .github ion-icon:hover{
     transform: rotate(360deg) scale(1.2);
+}
+
+/* media queries */
+
+@media(max-width: 500px){
+    
+    .times{
+        flex-direction: column;
+    }
+    #date{
+        margin-top: 10px;
+        justify-content: right;
+        margin-right: 0px;
+    }
+    .content{
+        flex-direction: column;
+    }
+    .main-content{
+        padding: 30px;
+        flex: 4;
+        display: flex;
+        flex-direction: column;
+    }
+    .to-do{
+        display: grid;
+        grid-template-rows: 1fr;
+        height: auto;
+        justify-content: center;
+        text-align: center;
+    }
+    .btn-wrap{
+        visibility: visible;
+    }
+    .cat-title{
+        text-align: center;
+    }
+    .active-content{
+        text-align: center;
+    }
 }
