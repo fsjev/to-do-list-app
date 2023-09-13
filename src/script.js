@@ -132,9 +132,14 @@ const App = (() => {
         correspondingObj.isActive = true;
     };
 
+    const clearLocalStorage = () => {
+
+        localStorage.clear();
+    };
+
     const getActiveTimePeriod = () => timeConstraints.find(obj => obj.isActive === true);
     
-    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod, saveLocal, retrieveLocal };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod, saveLocal, retrieveLocal, clearLocalStorage };
 })();
 
 window.addEventListener("load", App.retrieveLocal);
@@ -143,6 +148,7 @@ const UIController = (() => {
 
     const createCatBtn = document.getElementById("create-category");
     const addtodoBtn = document.getElementById("add-to-do");
+    const clearLocalBtn = document.getElementById("clear-storage");
 
     const allTodosBtn = document.getElementById("all todos");
     const todayBtn = document.getElementById("today");
@@ -315,16 +321,22 @@ const UIController = (() => {
     const timePeriodBtnClick = (e) => {
 
         const timePeriod = e.target.textContent.toLowerCase().replace("-", "");
-        App.activateTimeConstraint(timePeriod);
         UpdateScreen.highlightActiveTimePeriod();
+        App.activateTimeConstraint(timePeriod);
         UpdateScreen.setTimePeriodInfo();
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
     };
 
+    const clearStorage = () => {
+
+        App.clearLocalStorage();
+    };
+
     createCatBtn.addEventListener("click", showNewCategoryInput);
     addtodoBtn.addEventListener("click", showNewTodoInput);
     timeBtnArray.forEach(btn => btn.addEventListener("click", timePeriodBtnClick));
+    clearLocalBtn.addEventListener("click", clearStorage);
 
     return { openCategory, removeCategory, removeTodo }
 })();
