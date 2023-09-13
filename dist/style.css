@@ -270,11 +270,11 @@ main{
     height: 35px;
 }
 .title{
-    flex: 1;
+    flex: 4;
 }
 .due-date{
     font-size: 14px;
-    flex: 1;
+    flex: 3;
 }
 .btn-wrap{
     display: flex;
