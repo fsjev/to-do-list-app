@@ -162,6 +162,7 @@ const UIController = (() => {
         newInput.setAttribute("type", "text");
         newInput.setAttribute("placeholder", "Type new category name");
         newInput.setAttribute("class", "js-input");
+        newInput.setAttribute("maxlength", "10");
 
         const btnDiv = document.createElement("div");
         btnDiv.setAttribute("class", "btn-div");
@@ -193,6 +194,7 @@ const UIController = (() => {
         newInput.setAttribute("type", "text");
         newInput.setAttribute("placeholder", "What to do?");
         newInput.setAttribute("class", "js-input-to-do");
+        newInput.setAttribute("maxlength", "20");
 
         const newInputDate = document.createElement("input");
         newInputDate.setAttribute("type", "date");
