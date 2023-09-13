@@ -323,8 +323,8 @@ const UIController = (() => {
     const timePeriodBtnClick = (e) => {
 
         const timePeriod = e.target.textContent.toLowerCase().replace("-", "");
-        UpdateScreen.highlightActiveTimePeriod();
         App.activateTimeConstraint(timePeriod);
+        UpdateScreen.highlightActiveTimePeriod();
         UpdateScreen.setTimePeriodInfo();
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
