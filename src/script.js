@@ -2,9 +2,6 @@ import { addDays, format, parseISO } from "date-fns";
 import { Todo, TodoContainer, CategoryContainer } from "./classes.js";
 
 
-
-
-
 const App = (() => {
 
     const date = format(new Date(), "MMM dd, yyyy");
@@ -14,7 +11,7 @@ const App = (() => {
 
     const allTodos = {
         label: "all todos",
-        isActive: false,
+        isActive: true,
         constraint: function(dueDate){
             return true;
         }
@@ -41,7 +38,7 @@ const App = (() => {
 
     const thisWeek = {
         label: "this week",
-        isActive: true,
+        isActive: false,
         constraint: function(dueDate){
             const date = format(new Date(), "yyyy-MM-dd");
             for(let i = 0; i < 8; i++){
@@ -52,9 +49,38 @@ const App = (() => {
             return false;
         }
     };
+
     const timeConstraints = [allTodos, today, tomorrow, thisWeek];
 
     const getActiveCategory = () => CATEGORYCONTAINER.getActiveCategory();
+
+    const saveLocal = () => {
+        localStorage.setItem("categories", JSON.stringify(CATEGORYCONTAINER.categories));
+    };
+
+    const retrieveLocal = () => {
+        if(localStorage.getItem("categories")){
+
+            const restoreMethods = (categoryObject) => {
+
+                const todos = categoryObject.category.todos;
+                categoryObject.category = new TodoContainer();
+                categoryObject.category.todos = todos;
+                return categoryObject;
+            };
+
+            const categoryObjectsJSON = JSON.parse(localStorage.getItem("categories"));
+
+            const categoryObjects = categoryObjectsJSON.map(catObj => restoreMethods(catObj));
+
+            App.CATEGORYCONTAINER.categories = categoryObjects;
+            UpdateScreen.showCategories();
+            UpdateScreen.highlightActiveCategory();
+            UpdateScreen.setCategoryInfo();
+            UpdateScreen.showTodos();
+            UpdateScreen.setCounter();
+        }
+    };
 
     const setActiveCategory = (categoryName) => {
 
@@ -71,7 +97,6 @@ const App = (() => {
         const todo = new Todo(title, dueDate);
         
         getActiveCategory().category.addTodo(todo);
-        // console.log(CATEGORYCONTAINER.categories)
     };
 
     const createTodoContainer = (categoryName) => {
@@ -109,9 +134,10 @@ const App = (() => {
 
     const getActiveTimePeriod = () => timeConstraints.find(obj => obj.isActive === true);
     
-    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod };
+    return { date, CATEGORYCONTAINER, getActiveCategory, setActiveCategory, createTodoContainer, createTodo, deleteCategory, deleteTodo, activateTimeConstraint, timeConstraints, getActiveTimePeriod, saveLocal, retrieveLocal };
 })();
 
+window.addEventListener("load", App.retrieveLocal);
 
 const UIController = (() => {
 
@@ -152,6 +178,7 @@ const UIController = (() => {
         btnDiv.appendChild(newCategoryBtnOk);
         btnDiv.appendChild(newCategoryBtnCancel);
         containerOne.appendChild(btnDiv);
+        newInput.focus();
     };
 
     const showNewTodoInput = () => {
@@ -187,6 +214,7 @@ const UIController = (() => {
         btnDiv.appendChild(newTodoBtnOk);
         btnDiv.appendChild(newTodoBtnCancel);
         containerTwo.appendChild(btnDiv);
+        newInput.focus();
     };
 
     const cancelTodoInput = (e) => {
@@ -218,7 +246,6 @@ const UIController = (() => {
         const newCategoryName = `${firstLetter}${otherLetters}`;
 
         App.createTodoContainer(newCategoryName);
-        // console.log(App.CATEGORYCONTAINER.categories);
         cancelCategoryInput(e);
         UpdateScreen.showCategories();
         UpdateScreen.highlightActiveCategory();
@@ -226,7 +253,7 @@ const UIController = (() => {
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
         document.getElementById("all todos").click();
-
+        App.saveLocal();
     };
 
     const createTodo = (e) => {
@@ -247,7 +274,7 @@ const UIController = (() => {
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
         document.getElementById("all todos").click();
-        // console.log(App.CATEGORYCONTAINER.categories)
+        App.saveLocal();
     };
 
     const openCategory = (e) => {
@@ -259,6 +286,7 @@ const UIController = (() => {
         UpdateScreen.setCategoryInfo();
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
+        App.saveLocal();
     };
 
     const removeCategory = (e) => {
@@ -271,6 +299,7 @@ const UIController = (() => {
         const previousCategoryElem = catArray[previousCategoryIndex];
         App.deleteCategory(categoryName);
         previousCategoryElem.click();
+        App.saveLocal();
     };
 
     const removeTodo = (e) => {
@@ -280,6 +309,7 @@ const UIController = (() => {
         App.deleteTodo(todoTitle);
         UpdateScreen.showTodos();
         UpdateScreen.setCounter();
+        App.saveLocal();
     };
 
     const timePeriodBtnClick = (e) => {
@@ -446,6 +476,7 @@ const UpdateScreen = (() => {
     };
 
     dateDiv.textContent = App.date;
+
     setCategoryInfo();
     showCategories();
     highlightActiveCategory();
@@ -457,3 +488,5 @@ const UpdateScreen = (() => {
     return { showCategories, highlightActiveCategory, setCategoryInfo, showTodos, setCounter, highlightActiveTimePeriod, setTimePeriodInfo };
 
 })();
+
+
