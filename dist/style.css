@@ -319,17 +319,32 @@ main{
     background-color: rgb(196, 223, 255);
 }
 .counter-container{
-    /* border: 1px solid green; */
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 15px;
+    gap: 10%;
+}
+.counter-container button{
+    background-color: transparent;
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: 5px;
+}
+.counter-container button:hover{
+    background-color: rgb(197, 216, 240);
 }
 #counter{
     display: block;
     font-size: 100px;
     margin-right: 10px;
+}
+.rest{
+    display: flex;
+    justify-content: center;
 }
 ion-icon{
     font-size: 30px;
