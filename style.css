@@ -330,9 +330,10 @@ main{
 .counter-container button{
     background-color: transparent;
     outline: none;
-    border: 1px solid gray;
+    border: 1px solid red;
     border-radius: 4px;
     padding: 5px;
+    cursor: pointer;
 }
 .counter-container button:hover{
     background-color: rgb(197, 216, 240);
